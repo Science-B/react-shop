@@ -1,0 +1,17 @@
+// font here
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	background-color: var(--bg-main);
+	color: var(--page-text-color);
+	font-family: var(--font-main);
+	font-size: var(--font-size);
+	font-weight: var(--font-weight);
+}
+
+a {
+	color: var(--page-text-color);
+}
