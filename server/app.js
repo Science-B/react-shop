@@ -2,13 +2,13 @@ import express from 'express';
 import mongoose from 'mongoose';
 import chalk from 'chalk';
 import dotenv from 'dotenv';
-import authRouter from './routes/auth-routes.js';
+import routes from './routes/index.js';
 dotenv.config();
 
 const app = express();
 const PORT = 3000;
 app.use(express.json());
-app.use('/api/auth', authRouter);
+app.use('/api', routes);
 
 async function start() {
 	try {
