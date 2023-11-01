@@ -2,26 +2,18 @@ import tokenService from './token-service.js';
 import bcryptjs from 'bcryptjs';
 import User from '../models/User.js';
 
+import { handleError } from '../utils/handleError.js';
+
 class AuthService {
 	async registration(payload) {
 		const { username, email, password } = payload;
 		const existingEmail = await User.findOne({ email });
 		const existingUserName = await User.findOne({ username });
 		if (existingEmail) {
-			return {
-				error: {
-					message: 'EMAIL_EXISTS',
-					code: 400,
-				},
-			};
+			return handleError(400, 'EMAIL_EXISTS');
 		}
 		if (existingUserName) {
-			return {
-				error: {
-					message: 'USERNAME_EXISTS',
-					code: 400,
-				},
-			};
+			return handleError(400, 'USERNAME_EXISTS');
 		}
 		const hashedPassword = bcryptjs.hashSync(password, 10);
 		const newUser = await User.create({
