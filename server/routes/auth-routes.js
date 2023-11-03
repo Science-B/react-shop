@@ -1,5 +1,5 @@
 import express from 'express';
-import { signUp, signIn } from '../controllers/auth-controllers.js';
+import { signUp, signIn } from '../controllers/auth-controller.js';
 
 const router = express.Router({ mergeParams: true });
 
