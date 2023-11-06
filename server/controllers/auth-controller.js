@@ -27,3 +27,13 @@ export const signIn = async (req, res) => {
 		handleError(500, 'SERVER_ERROR');
 	}
 };
+
+export const logOut = async (req, res) => {
+	try {
+		const token = await authService.exit(req.cookies);
+		res.clearCookie('refreshToken');
+		return res.json(token);
+	} catch (error) {
+		handleError(500, 'SERVER_ERROR');
+	}
+};

@@ -25,6 +25,11 @@ class TokenService {
 		return token;
 	}
 
+	async removeToken(refreshToken) {
+		const tokenData = await Token.deleteOne({ refreshToken });
+		return tokenData;
+	}
+
 	validateRefresh(refreshToken) {
 		try {
 			return jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);

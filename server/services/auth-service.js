@@ -43,6 +43,12 @@ class AuthService {
 		await tokenService.save(existingUser._id, tokens.refreshToken);
 		return { ...tokens, userId: existingUser._id };
 	}
+
+	async exit(payload) {
+		const { refreshToken } = payload;
+		const token = await tokenService.removeToken(refreshToken);
+		return token;
+	}
 }
 
 export default new AuthService();
