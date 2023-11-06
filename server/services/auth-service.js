@@ -25,6 +25,24 @@ class AuthService {
 		await tokenService.save(newUser._id, tokens.refreshToken);
 		return { ...tokens, userId: newUser._id };
 	}
+
+	async login(payload) {
+		const { email, password } = payload;
+		const existingUser = await User.findOne({ email });
+		if (!existingUser) {
+			return handleError(404, 'EMAIL_NOT_FOUND');
+		}
+		const isPasswordEqual = bcryptjs.compareSync(
+			password,
+			existingUser.password,
+		);
+		if (!isPasswordEqual) {
+			return handleError(401, 'INVALID_PASSWORD');
+		}
+		const tokens = tokenService.generate({ _id: existingUser._id });
+		await tokenService.save(existingUser._id, tokens.refreshToken);
+		return { ...tokens, userId: existingUser._id };
+	}
 }
 
 export default new AuthService();
