@@ -37,3 +37,17 @@ export const logOut = async (req, res) => {
 		handleError(500, 'SERVER_ERROR');
 	}
 };
+
+export const refresh = async (req, res) => {
+	try {
+		const authData = await authService.refresh(req.cookies);
+		res.cookie('refreshToken', authData.refreshToken, {
+			maxAge: 15 * 24 * 60 * 60 * 1000,
+			httpOnly: true,
+		})
+			.status(201)
+			.json(authData);
+	} catch (error) {
+		handleError(500, 'SERVER_ERROR');
+	}
+};

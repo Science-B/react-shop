@@ -49,6 +49,22 @@ class AuthService {
 		const token = await tokenService.removeToken(refreshToken);
 		return token;
 	}
+
+	async refresh(payload) {
+		const { refreshToken } = payload;
+		if (!refreshToken) {
+			return handleError(401, 'UNAUTHORIZED ');
+		}
+		const token = tokenService.validateRefresh(refreshToken);
+		const dbToken = tokenService.findToken(token);
+		if (!token || !dbToken) {
+			return handleError(401, 'UNAUTHORIZED');
+		}
+		const existingUser = await User.findById(token._id);
+		const tokens = tokenService.generate({ _id: existingUser._id });
+		await tokenService.save(existingUser._id, tokens.refreshToken);
+		return { ...tokens, userId: existingUser._id };
+	}
 }
 
 export default new AuthService();

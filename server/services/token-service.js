@@ -30,17 +30,17 @@ class TokenService {
 		return tokenData;
 	}
 
-	validateRefresh(refreshToken) {
+	validateAccess(accessToken) {
 		try {
-			return jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+			return jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET);
 		} catch (error) {
 			return null;
 		}
 	}
 
-	validateAccess(accessToken) {
+	validateRefresh(refreshToken) {
 		try {
-			return jwt.verify(accessToken, process.env.JWT_ACCESS_SECRET);
+			return jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
 		} catch (error) {
 			return null;
 		}
