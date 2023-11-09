@@ -53,7 +53,7 @@ class AuthService {
 	async refresh(payload) {
 		const { refreshToken } = payload;
 		if (!refreshToken) {
-			return handleError(401, 'UNAUTHORIZED ');
+			return handleError(401, 'UNAUTHORIZED');
 		}
 		const token = tokenService.validateRefresh(refreshToken);
 		const dbToken = tokenService.findToken(token);
