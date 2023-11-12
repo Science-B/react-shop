@@ -1,5 +1,7 @@
 import authService from '../services/auth-service.js';
 
+import { handleError } from '../utils/handleError.js';
+
 export const signUp = async (req, res) => {
 	try {
 		const authData = await authService.registration(req.body);

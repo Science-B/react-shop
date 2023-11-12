@@ -1,5 +1,7 @@
 import commentsService from '../services/comments-service';
 
+import { handleError } from '../utils/handleError';
+
 export const getComments = async (req, res) => {
 	try {
 		const list = await commentsService.get(req.query);
