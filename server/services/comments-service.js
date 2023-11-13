@@ -1,4 +1,5 @@
 import Comment from '../models/Comment.js';
+
 import { handleError } from '../utils/handleError.js';
 
 class CommentsService {
