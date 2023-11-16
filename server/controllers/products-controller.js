@@ -1,6 +1,6 @@
-import productsService from '../services/products-service';
+import productsService from '../services/products-service.js';
 
-import { handleError } from '../utils/handleError';
+import { handleError } from '../utils/handleError.js';
 
 export const getProducts = async (req, res) => {
 	try {
