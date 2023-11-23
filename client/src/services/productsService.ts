@@ -6,11 +6,11 @@ import { Product } from '../api/interfaces';
 
 const productsService = {
 	getAll: async (): Promise<AxiosResponse<Product[]>> => {
-		return httpService.post<Product[]>('/products')
+		return httpService.get<Product[]>('/products')
 
 	},
 	getById: async (productId: string): Promise<AxiosResponse<Product>> => {
-		return httpService.post<Product>(`/products/${productId}`)
+		return httpService.get<Product>(`/products/${productId}`)
 	},
 };
 
