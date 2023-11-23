@@ -1,8 +1,16 @@
 import tokenService from './token-service.js';
 import bcryptjs from 'bcryptjs';
 import User from '../models/User.js';
+import UserDto from '../dtos/user-dto.js';
 
 import { handleError } from '../utils/handleError.js';
+
+async function generateTokensAndSave(user) {
+	const userDto = new UserDto(user);
+	const tokens = tokenService.generate({ ...userDto });
+	await tokenService.save(userDto.id, tokens.refreshToken);
+	return { ...tokens, user: userDto };
+}
 
 class AuthService {
 	async registration(payload) {
@@ -21,9 +29,7 @@ class AuthService {
 			email,
 			password: hashedPassword,
 		});
-		const tokens = tokenService.generate({ _id: newUser._id });
-		await tokenService.save(newUser._id, tokens.refreshToken);
-		return { ...tokens, userId: newUser._id };
+		return generateTokensAndSave(newUser);
 	}
 
 	async login(payload) {
@@ -39,9 +45,7 @@ class AuthService {
 		if (!isPasswordEqual) {
 			return handleError(401, 'INVALID_PASSWORD');
 		}
-		const tokens = tokenService.generate({ _id: existingUser._id });
-		await tokenService.save(existingUser._id, tokens.refreshToken);
-		return { ...tokens, userId: existingUser._id };
+		return generateTokensAndSave(existingUser);
 	}
 
 	async exit(payload) {
@@ -49,7 +53,6 @@ class AuthService {
 		const token = await tokenService.removeToken(refreshToken);
 		return token;
 	}
-
 	async refresh(payload) {
 		const { refreshToken } = payload;
 		if (!refreshToken) {
@@ -60,10 +63,8 @@ class AuthService {
 		if (!token || !dbToken) {
 			return handleError(401, 'UNAUTHORIZED');
 		}
-		const existingUser = await User.findById(token._id);
-		const tokens = tokenService.generate({ _id: existingUser._id });
-		await tokenService.save(existingUser._id, tokens.refreshToken);
-		return { ...tokens, userId: existingUser._id };
+		const existingUser = await User.findById(token.id);
+		return generateTokensAndSave(existingUser);
 	}
 }
 
