@@ -1,6 +1,6 @@
-import commentsService from '../services/comments-service';
+import commentsService from '../services/comments-service.js';
 
-import { handleError } from '../utils/handleError';
+import { handleError } from '../utils/handleError.js';
 
 export const getComments = async (req, res) => {
 	try {
