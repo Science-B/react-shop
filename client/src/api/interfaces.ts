@@ -4,6 +4,12 @@ export interface AuthResponse {
 	user: User;
 }
 
+export interface AuthFormData {
+	username?: string;
+	email: string;
+	password: string;
+}
+
 export interface User {
 	username: string;
 	email: string;
